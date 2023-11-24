@@ -307,8 +307,14 @@ class _AutoSizeTextState extends State<AutoSizeText> {
 
   List _calculateFontSize(
       BoxConstraints size, TextStyle? style, int? maxLines) {
+    var effectiveSpanStyle = widget.textSpan?.style ?? style;
+    if (MediaQuery.boldTextOf(context)) {
+      effectiveSpanStyle = effectiveSpanStyle?.merge(
+        const TextStyle(fontWeight: FontWeight.bold),
+      );
+    }
     final span = TextSpan(
-      style: widget.textSpan?.style ?? style,
+      style: effectiveSpanStyle,
       text: widget.textSpan?.text ?? widget.data,
       children: widget.textSpan?.children,
       recognizer: widget.textSpan?.recognizer,
